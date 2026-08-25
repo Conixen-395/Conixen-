@@ -1,10 +1,12 @@
 /* =========================================
-   CONIXEN V2 — MAIN JAVASCRIPT
+   CONIXEN V3 — MAIN JAVASCRIPT
    ========================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* ================= MOBILE MENU ================= */
+  /* =========================================
+     MOBILE MENU
+     ========================================= */
 
   const menuBtn = document.getElementById("menuBtn");
   const mobileMenu = document.getElementById("mobileMenu");
@@ -13,34 +15,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     menuBtn.addEventListener("click", () => {
 
-      mobileMenu.classList.toggle("show");
+      mobileMenu.classList.toggle("open");
 
       menuBtn.textContent =
-        mobileMenu.classList.contains("show")
+        mobileMenu.classList.contains("open")
           ? "✕"
           : "☰";
 
     });
 
-  }
-
-
-  /* Close mobile menu after selecting a link */
-
-  if (mobileMenu) {
-
-    const mobileLinks =
-      mobileMenu.querySelectorAll("a");
-
-    mobileLinks.forEach((link) => {
+    mobileMenu.querySelectorAll("a").forEach((link) => {
 
       link.addEventListener("click", () => {
 
-        mobileMenu.classList.remove("show");
-
-        if (menuBtn) {
-          menuBtn.textContent = "☰";
-        }
+        mobileMenu.classList.remove("open");
+        menuBtn.textContent = "☰";
 
       });
 
@@ -49,31 +38,30 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-  /* ================= HERO SEARCH ================= */
+  /* =========================================
+     SEARCH
+     ========================================= */
 
-  const searchForm =
-    document.getElementById("searchForm");
-
-  const searchInput =
-    document.getElementById("searchInput");
-
+  const searchForm = document.getElementById("searchForm");
+  const searchInput = document.getElementById("searchInput");
 
   function performSearch(query) {
 
-    query = query.trim();
+    const value = (query || "").trim();
 
-    if (!query) {
+    if (!value) {
 
       if (searchInput) {
         searchInput.focus();
       }
 
       return;
+
     }
 
     window.location.href =
       "pages/wallpapers.html?search=" +
-      encodeURIComponent(query);
+      encodeURIComponent(value);
 
   }
 
@@ -84,54 +72,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
       event.preventDefault();
 
-      if (searchInput) {
-        performSearch(searchInput.value);
-      }
+      performSearch(
+        searchInput ? searchInput.value : ""
+      );
 
     });
 
   }
 
 
-  /* ================= QUICK FILTERS ================= */
+  /* =========================================
+     SEARCH MODAL
+     ========================================= */
 
-  const quickFilters =
-    document.querySelectorAll(".quick-filters button");
-
-  quickFilters.forEach((button) => {
-
-    button.addEventListener("click", () => {
-
-      const value =
-        button.textContent.trim();
-
-      if (searchInput) {
-
-        searchInput.value = value;
-
-        performSearch(value);
-
-      }
-
-    });
-
-  });
-
-
-  /* ================= SEARCH MODAL ================= */
-
-  const openSearch =
-    document.getElementById("openSearch");
-
-  const searchModal =
-    document.getElementById("searchModal");
-
-  const closeSearch =
-    document.getElementById("closeSearch");
-
-  const modalInput =
+  const openSearch = document.getElementById("openSearch");
+  const searchModal = document.getElementById("searchModal");
+  const closeSearch = document.getElementById("closeSearch");
+  const modalSearchInput =
     document.getElementById("modalSearchInput");
-
   const modalSearchButton =
     document.getElementById("modalSearchButton");
 
@@ -142,13 +100,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     searchModal.classList.add("show");
 
+    document.body.style.overflow = "hidden";
+
     setTimeout(() => {
 
-      if (modalInput) {
-        modalInput.focus();
+      if (modalSearchInput) {
+        modalSearchInput.focus();
       }
 
-    }, 100);
+    }, 150);
 
   }
 
@@ -158,6 +118,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!searchModal) return;
 
     searchModal.classList.remove("show");
+
+    document.body.style.overflow = "";
 
   }
 
@@ -182,8 +144,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-  /* Click outside search box */
-
   if (searchModal) {
 
     searchModal.addEventListener("click", (event) => {
@@ -197,26 +157,40 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-  /* ESC closes search */
-
-  document.addEventListener("keydown", (event) => {
-
-    if (event.key === "Escape") {
-      closeSearchModal();
-    }
-
-  });
-
-
   if (modalSearchButton) {
 
-    modalSearchButton.addEventListener(
-      "click",
-      () => {
+    modalSearchButton.addEventListener("click", () => {
 
-        if (!modalInput) return;
+      performSearch(
+        modalSearchInput
+          ? modalSearchInput.value
+          : ""
+      );
 
-        performSearch(modalInput.value);
+    });
+
+  }
+
+
+  if (modalSearchInput) {
+
+    modalSearchInput.addEventListener(
+      "keydown",
+      (event) => {
+
+        if (event.key === "Enter") {
+
+          event.preventDefault();
+
+          performSearch(
+            modalSearchInput.value
+          );
+
+        }
+
+        if (event.key === "Escape") {
+          closeSearchModal();
+        }
 
       }
     );
@@ -224,95 +198,401 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-  if (modalInput) {
+  /* =========================================
+     ESCAPE KEY
+     ========================================= */
 
-    modalInput.addEventListener("keydown", (event) => {
+  document.addEventListener("keydown", (event) => {
 
-      if (event.key === "Enter") {
+    if (event.key === "Escape") {
 
-        event.preventDefault();
+      closeSearchModal();
 
-        performSearch(modalInput.value);
+      if (mobileMenu && menuBtn) {
 
-      }
-
-    });
-
-  }
-
-
-  /* ================= FAVORITES ================= */
-
-  const hearts =
-    document.querySelectorAll(".heart");
-
-
-  hearts.forEach((heart, index) => {
-
-    heart.addEventListener("click", (event) => {
-
-      event.preventDefault();
-      event.stopPropagation();
-
-      heart.classList.toggle("liked");
-
-      if (heart.classList.contains("liked")) {
-
-        heart.textContent = "♥";
-
-        heart.style.color = "#ff416c";
-
-        heart.style.borderColor = "#ff416c";
-
-        localStorage.setItem(
-          `conixen-favorite-${index}`,
-          "true"
-        );
-
-      } else {
-
-        heart.textContent = "♡";
-
-        heart.style.color = "";
-
-        heart.style.borderColor = "";
-
-        localStorage.removeItem(
-          `conixen-favorite-${index}`
-        );
+        mobileMenu.classList.remove("open");
+        menuBtn.textContent = "☰";
 
       }
-
-    });
-
-
-    /* Restore favorites */
-
-    const saved =
-      localStorage.getItem(
-        `conixen-favorite-${index}`
-      );
-
-    if (saved === "true") {
-
-      heart.classList.add("liked");
-
-      heart.textContent = "♥";
-
-      heart.style.color = "#ff416c";
-
-      heart.style.borderColor = "#ff416c";
 
     }
 
   });
 
 
-  /* ================= CARD ANIMATION ================= */
+  /* =========================================
+     HORIZONTAL SLIDERS
+     ========================================= */
 
-  const cards =
+  const sliderContainers =
+    document.querySelectorAll(".wallpaper-slider");
+
+
+  sliderContainers.forEach((slider) => {
+
+    const track =
+      slider.querySelector(".wallpaper-track");
+
+    const previous =
+      slider.querySelector(".slider-prev");
+
+    const next =
+      slider.querySelector(".slider-next");
+
+
+    if (!track) return;
+
+
+    function slide(direction) {
+
+      const amount =
+        Math.min(
+          track.clientWidth * 0.75,
+          500
+        );
+
+      track.scrollBy({
+        left: direction * amount,
+        behavior: "smooth"
+      });
+
+    }
+
+
+    if (previous) {
+
+      previous.addEventListener(
+        "click",
+        () => slide(-1)
+      );
+
+    }
+
+
+    if (next) {
+
+      next.addEventListener(
+        "click",
+        () => slide(1)
+      );
+
+    }
+
+
+    /* Mouse wheel → horizontal movement */
+
+    track.addEventListener(
+      "wheel",
+      (event) => {
+
+        if (
+          Math.abs(event.deltaY) >
+          Math.abs(event.deltaX)
+        ) {
+
+          if (
+            track.scrollWidth >
+            track.clientWidth
+          ) {
+
+            event.preventDefault();
+
+            track.scrollLeft +=
+              event.deltaY;
+
+          }
+
+        }
+
+      },
+      { passive: false }
+    );
+
+  });
+
+
+  /* =========================================
+     CATEGORY / FEATURED HORIZONTAL SCROLL
+     ========================================= */
+
+  const horizontalSections =
     document.querySelectorAll(
-      ".wallpaper-card, .category-card, .device-card, .featured-item"
+      ".category-strip, .featured-slider"
+    );
+
+
+  horizontalSections.forEach((track) => {
+
+    track.addEventListener(
+      "wheel",
+      (event) => {
+
+        if (
+          Math.abs(event.deltaY) >
+          Math.abs(event.deltaX)
+        ) {
+
+          if (
+            track.scrollWidth >
+            track.clientWidth
+          ) {
+
+            event.preventDefault();
+
+            track.scrollLeft +=
+              event.deltaY;
+
+          }
+
+        }
+
+      },
+      { passive: false }
+    );
+
+  });
+
+
+  /* =========================================
+     FAVORITES
+     ========================================= */
+
+  const favoriteKey =
+    "conixenFavorites";
+
+
+  function getFavorites() {
+
+    try {
+
+      return JSON.parse(
+        localStorage.getItem(favoriteKey)
+      ) || [];
+
+    } catch (error) {
+
+      return [];
+
+    }
+
+  }
+
+
+  function saveFavorites(favorites) {
+
+    localStorage.setItem(
+      favoriteKey,
+      JSON.stringify(favorites)
+    );
+
+  }
+
+
+  function getWallpaperName(card) {
+
+    const title =
+      card.querySelector(".wallpaper-info h3");
+
+    return title
+      ? title.textContent.trim()
+      : "Wallpaper";
+
+  }
+
+
+  function updateFavoriteButton(button, liked) {
+
+    if (!button) return;
+
+    button.classList.toggle(
+      "liked",
+      liked
+    );
+
+    button.textContent =
+      liked ? "♥" : "♡";
+
+    button.style.color =
+      liked ? "#ff4f6a" : "";
+
+    button.setAttribute(
+      "aria-label",
+      liked
+        ? "Remove from favorites"
+        : "Add to favorites"
+    );
+
+  }
+
+
+  function setupFavorites() {
+
+    const hearts =
+      document.querySelectorAll(".heart");
+
+    const favorites =
+      getFavorites();
+
+
+    hearts.forEach((heart, index) => {
+
+      const card =
+        heart.closest(".wallpaper-card");
+
+      if (!card) return;
+
+
+      const name =
+        getWallpaperName(card);
+
+
+      const id =
+        name.toLowerCase()
+          .replace(/\s+/g, "-")
+          .replace(/[^a-z0-9-]/g, "")
+        + "-" +
+        index;
+
+
+      const alreadyLiked =
+        favorites.some(
+          (item) => item.id === id
+        );
+
+
+      updateFavoriteButton(
+        heart,
+        alreadyLiked
+      );
+
+
+      heart.addEventListener(
+        "click",
+        (event) => {
+
+          event.preventDefault();
+          event.stopPropagation();
+
+
+          let current =
+            getFavorites();
+
+
+          const existing =
+            current.findIndex(
+              (item) => item.id === id
+            );
+
+
+          if (existing >= 0) {
+
+            current.splice(
+              existing,
+              1
+            );
+
+            updateFavoriteButton(
+              heart,
+              false
+            );
+
+          } else {
+
+            current.push({
+
+              id: id,
+
+              name: name,
+
+              category:
+                card.querySelector(
+                  ".wallpaper-info p"
+                )?.textContent
+                || "Wallpaper",
+
+              added:
+                new Date().toISOString()
+
+            });
+
+            updateFavoriteButton(
+              heart,
+              true
+            );
+
+          }
+
+
+          saveFavorites(current);
+
+
+          /* Small visual feedback */
+
+          heart.animate(
+            [
+              {
+                transform: "scale(1)"
+              },
+              {
+                transform: "scale(1.3)"
+              },
+              {
+                transform: "scale(1)"
+              }
+            ],
+            {
+              duration: 220
+            }
+          );
+
+        }
+      );
+
+    });
+
+  }
+
+
+  setupFavorites();
+
+
+  /* =========================================
+     QUICK FILTERS
+     ========================================= */
+
+  const filters =
+    document.querySelectorAll(
+      ".quick-filters button"
+    );
+
+
+  filters.forEach((filter) => {
+
+    filter.addEventListener(
+      "click",
+      () => {
+
+        const value =
+          filter.textContent.trim();
+
+        performSearch(value);
+
+      }
+    );
+
+  });
+
+
+  /* =========================================
+     CARD HOVER / REVEAL ANIMATION
+     ========================================= */
+
+  const animatedCards =
+    document.querySelectorAll(
+      ".wallpaper-card, " +
+      ".category-card, " +
+      ".device-card, " +
+      ".featured-item"
     );
 
 
@@ -324,7 +604,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
           entries.forEach((entry) => {
 
-            if (entry.isIntersecting) {
+            if (
+              entry.isIntersecting
+            ) {
 
               entry.target.classList.add(
                 "visible"
@@ -345,9 +627,7 @@ document.addEventListener("DOMContentLoaded", () => {
       );
 
 
-    cards.forEach((card) => {
-
-      card.classList.add("reveal");
+    animatedCards.forEach((card) => {
 
       observer.observe(card);
 
@@ -356,86 +636,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-  /* ================= CATEGORY TRACKING ================= */
-
-  const categoryCards =
-    document.querySelectorAll(
-      ".category-card"
-    );
-
-
-  categoryCards.forEach((category) => {
-
-    category.addEventListener("click", () => {
-
-      const name =
-        category.querySelector("h3")
-          ?.textContent
-          ?.trim();
-
-      if (name) {
-
-        console.log(
-          "CONIXEN category:",
-          name
-        );
-
-      }
-
-    });
-
-  });
-
-
-  /* ================= DEVICE TRACKING ================= */
-
-  const deviceCards =
-    document.querySelectorAll(
-      ".device-card"
-    );
-
-
-  deviceCards.forEach((device) => {
-
-    device.addEventListener("click", () => {
-
-      const name =
-        device.querySelector("h3")
-          ?.textContent
-          ?.trim();
-
-      if (name) {
-
-        console.log(
-          "CONIXEN device:",
-          name
-        );
-
-      }
-
-    });
-
-  });
-
-
-  /* ================= HEART FEEDBACK ================= */
-
-  hearts.forEach((heart) => {
-
-    heart.addEventListener("animationend", () => {
-
-      heart.style.transform = "";
-
-    });
-
-  });
-
-
-  /* ================= YEAR ================= */
+  /* =========================================
+     YEAR
+     ========================================= */
 
   const yearElements =
     document.querySelectorAll(
-      ".current-year"
+      "[data-year]"
     );
 
 
@@ -447,10 +654,61 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 
-  /* ================= CONIXEN READY ================= */
+  const copyright =
+    document.querySelector(".copyright");
+
+
+  if (copyright) {
+
+    copyright.textContent =
+      `© ${new Date().getFullYear()} CONIXEN. All rights reserved.`;
+
+  }
+
+
+  /* =========================================
+     ACTIVE NAVIGATION
+     ========================================= */
+
+  const currentPage =
+    window.location.pathname;
+
+
+  document.querySelectorAll(
+    ".nav-links a, .mobile-menu a"
+  ).forEach((link) => {
+
+    const href =
+      link.getAttribute("href");
+
+    if (!href) return;
+
+
+    const linkPage =
+      href.split("?")[0];
+
+
+    if (
+      currentPage.endsWith(
+        linkPage
+      )
+    ) {
+
+      link.classList.add(
+        "active"
+      );
+
+    }
+
+  });
+
+
+  /* =========================================
+     CONIXEN READY
+     ========================================= */
 
   console.log(
-    "CONIXEN V2 loaded successfully 🚀"
+    "CONIXEN V3 loaded successfully."
   );
 
 });
