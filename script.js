@@ -1,6 +1,5 @@
-
 /* =========================================
-   CONIXEN — MAIN JAVASCRIPT
+   CONIXEN V2 — MAIN JAVASCRIPT
    ========================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -11,87 +10,244 @@ document.addEventListener("DOMContentLoaded", () => {
   const mobileMenu = document.getElementById("mobileMenu");
 
   if (menuBtn && mobileMenu) {
+
     menuBtn.addEventListener("click", () => {
-      mobileMenu.classList.toggle("open");
+
+      mobileMenu.classList.toggle("show");
 
       menuBtn.textContent =
-        mobileMenu.classList.contains("open") ? "✕" : "☰";
+        mobileMenu.classList.contains("show")
+          ? "✕"
+          : "☰";
+
     });
+
   }
 
 
-  /* ================= SEARCH ================= */
+  /* Close mobile menu after selecting a link */
 
-  const heroSearch = document.getElementById("heroSearch");
-  const heroSearchBtn = document.getElementById("heroSearchBtn");
+  if (mobileMenu) {
 
-  function performSearch() {
+    const mobileLinks =
+      mobileMenu.querySelectorAll("a");
 
-    if (!heroSearch) return;
+    mobileLinks.forEach((link) => {
 
-    const query = heroSearch.value.trim();
+      link.addEventListener("click", () => {
+
+        mobileMenu.classList.remove("show");
+
+        if (menuBtn) {
+          menuBtn.textContent = "☰";
+        }
+
+      });
+
+    });
+
+  }
+
+
+  /* ================= HERO SEARCH ================= */
+
+  const searchForm =
+    document.getElementById("searchForm");
+
+  const searchInput =
+    document.getElementById("searchInput");
+
+
+  function performSearch(query) {
+
+    query = query.trim();
 
     if (!query) {
-      heroSearch.focus();
+
+      if (searchInput) {
+        searchInput.focus();
+      }
+
       return;
     }
-
-    /*
-      Temporary search system.
-
-      Later this will connect to the real
-      CONIXEN wallpaper database.
-    */
 
     window.location.href =
       "pages/wallpapers.html?search=" +
       encodeURIComponent(query);
+
   }
 
 
-  if (heroSearchBtn) {
-    heroSearchBtn.addEventListener("click", performSearch);
-  }
+  if (searchForm) {
 
+    searchForm.addEventListener("submit", (event) => {
 
-  if (heroSearch) {
-    heroSearch.addEventListener("keydown", (event) => {
+      event.preventDefault();
 
-      if (event.key === "Enter") {
-        performSearch();
+      if (searchInput) {
+        performSearch(searchInput.value);
       }
 
     });
+
   }
 
 
-  /* ================= SEARCH BUTTON ================= */
+  /* ================= QUICK FILTERS ================= */
 
-  const openSearch = document.getElementById("openSearch");
+  const quickFilters =
+    document.querySelectorAll(".quick-filters button");
 
-  if (openSearch && heroSearch) {
+  quickFilters.forEach((button) => {
 
-    openSearch.addEventListener("click", () => {
+    button.addEventListener("click", () => {
 
-      heroSearch.scrollIntoView({
-        behavior: "smooth",
-        block: "center"
-      });
+      const value =
+        button.textContent.trim();
 
-      setTimeout(() => {
-        heroSearch.focus();
-      }, 500);
+      if (searchInput) {
+
+        searchInput.value = value;
+
+        performSearch(value);
+
+      }
+
+    });
+
+  });
+
+
+  /* ================= SEARCH MODAL ================= */
+
+  const openSearch =
+    document.getElementById("openSearch");
+
+  const searchModal =
+    document.getElementById("searchModal");
+
+  const closeSearch =
+    document.getElementById("closeSearch");
+
+  const modalInput =
+    document.getElementById("modalSearchInput");
+
+  const modalSearchButton =
+    document.getElementById("modalSearchButton");
+
+
+  function openSearchModal() {
+
+    if (!searchModal) return;
+
+    searchModal.classList.add("show");
+
+    setTimeout(() => {
+
+      if (modalInput) {
+        modalInput.focus();
+      }
+
+    }, 100);
+
+  }
+
+
+  function closeSearchModal() {
+
+    if (!searchModal) return;
+
+    searchModal.classList.remove("show");
+
+  }
+
+
+  if (openSearch) {
+
+    openSearch.addEventListener(
+      "click",
+      openSearchModal
+    );
+
+  }
+
+
+  if (closeSearch) {
+
+    closeSearch.addEventListener(
+      "click",
+      closeSearchModal
+    );
+
+  }
+
+
+  /* Click outside search box */
+
+  if (searchModal) {
+
+    searchModal.addEventListener("click", (event) => {
+
+      if (event.target === searchModal) {
+        closeSearchModal();
+      }
 
     });
 
   }
 
 
-  /* ================= FAVORITE BUTTONS ================= */
+  /* ESC closes search */
 
-  const hearts = document.querySelectorAll(".heart");
+  document.addEventListener("keydown", (event) => {
 
-  hearts.forEach((heart) => {
+    if (event.key === "Escape") {
+      closeSearchModal();
+    }
+
+  });
+
+
+  if (modalSearchButton) {
+
+    modalSearchButton.addEventListener(
+      "click",
+      () => {
+
+        if (!modalInput) return;
+
+        performSearch(modalInput.value);
+
+      }
+    );
+
+  }
+
+
+  if (modalInput) {
+
+    modalInput.addEventListener("keydown", (event) => {
+
+      if (event.key === "Enter") {
+
+        event.preventDefault();
+
+        performSearch(modalInput.value);
+
+      }
+
+    });
+
+  }
+
+
+  /* ================= FAVORITES ================= */
+
+  const hearts =
+    document.querySelectorAll(".heart");
+
+
+  hearts.forEach((heart, index) => {
 
     heart.addEventListener("click", (event) => {
 
@@ -101,81 +257,129 @@ document.addEventListener("DOMContentLoaded", () => {
       heart.classList.toggle("liked");
 
       if (heart.classList.contains("liked")) {
+
         heart.textContent = "♥";
-        heart.style.color = "#ff4f7b";
+
+        heart.style.color = "#ff416c";
+
+        heart.style.borderColor = "#ff416c";
+
+        localStorage.setItem(
+          `conixen-favorite-${index}`,
+          "true"
+        );
+
       } else {
+
         heart.textContent = "♡";
+
         heart.style.color = "";
+
+        heart.style.borderColor = "";
+
+        localStorage.removeItem(
+          `conixen-favorite-${index}`
+        );
+
       }
 
     });
+
+
+    /* Restore favorites */
+
+    const saved =
+      localStorage.getItem(
+        `conixen-favorite-${index}`
+      );
+
+    if (saved === "true") {
+
+      heart.classList.add("liked");
+
+      heart.textContent = "♥";
+
+      heart.style.color = "#ff416c";
+
+      heart.style.borderColor = "#ff416c";
+
+    }
 
   });
 
 
   /* ================= CARD ANIMATION ================= */
 
-  const cards = document.querySelectorAll(
-    ".wallpaper-card, .category-card, .device-card, .trend-item"
-  );
+  const cards =
+    document.querySelectorAll(
+      ".wallpaper-card, .category-card, .device-card, .featured-item"
+    );
 
-  const observer = new IntersectionObserver(
-    (entries) => {
 
-      entries.forEach((entry) => {
+  if ("IntersectionObserver" in window) {
 
-        if (entry.isIntersecting) {
+    const observer =
+      new IntersectionObserver(
+        (entries) => {
 
-          entry.target.style.opacity = "1";
-          entry.target.style.transform = "translateY(0)";
+          entries.forEach((entry) => {
 
-          observer.unobserve(entry.target);
+            if (entry.isIntersecting) {
 
+              entry.target.classList.add(
+                "visible"
+              );
+
+              observer.unobserve(
+                entry.target
+              );
+
+            }
+
+          });
+
+        },
+        {
+          threshold: 0.08
         }
-
-      });
-
-    },
-    {
-      threshold: 0.08
-    }
-  );
+      );
 
 
-  cards.forEach((card) => {
+    cards.forEach((card) => {
 
-    card.style.opacity = "0";
-    card.style.transform = "translateY(20px)";
-    card.style.transition =
-      "opacity 0.6s ease, transform 0.6s ease";
+      card.classList.add("reveal");
 
-    observer.observe(card);
+      observer.observe(card);
 
-  });
+    });
+
+  }
 
 
-  /* ================= CATEGORY FEEDBACK ================= */
+  /* ================= CATEGORY TRACKING ================= */
 
   const categoryCards =
-    document.querySelectorAll(".category-card");
+    document.querySelectorAll(
+      ".category-card"
+    );
+
 
   categoryCards.forEach((category) => {
 
-    category.addEventListener("click", (event) => {
+    category.addEventListener("click", () => {
 
-      /*
-        Categories will later connect
-        to their individual wallpaper pages.
-      */
+      const name =
+        category.querySelector("h3")
+          ?.textContent
+          ?.trim();
 
-      const categoryName =
-        category.querySelector("h3")?.textContent;
+      if (name) {
 
-      if (categoryName) {
         console.log(
           "CONIXEN category:",
-          categoryName
+          name
         );
+
       }
 
     });
@@ -183,28 +387,44 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 
-  /* ================= DEVICE FEEDBACK ================= */
+  /* ================= DEVICE TRACKING ================= */
 
   const deviceCards =
-    document.querySelectorAll(".device-card");
+    document.querySelectorAll(
+      ".device-card"
+    );
+
 
   deviceCards.forEach((device) => {
 
-    device.addEventListener("click", (event) => {
+    device.addEventListener("click", () => {
 
-      event.preventDefault();
+      const name =
+        device.querySelector("h3")
+          ?.textContent
+          ?.trim();
 
-      const deviceName =
-        device.querySelector("h3")?.textContent;
-
-      if (deviceName) {
+      if (name) {
 
         console.log(
           "CONIXEN device:",
-          deviceName
+          name
         );
 
       }
+
+    });
+
+  });
+
+
+  /* ================= HEART FEEDBACK ================= */
+
+  hearts.forEach((heart) => {
+
+    heart.addEventListener("animationend", () => {
+
+      heart.style.transform = "";
 
     });
 
@@ -213,16 +433,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ================= YEAR ================= */
 
-  const copyright =
-    document.querySelector(".copyright");
+  const yearElements =
+    document.querySelectorAll(
+      ".current-year"
+    );
 
-  if (copyright) {
 
-    const year = new Date().getFullYear();
+  yearElements.forEach((element) => {
 
-    copyright.textContent =
-      `© ${year} CONIXEN. All rights reserved.`;
+    element.textContent =
+      new Date().getFullYear();
 
-  }
+  });
+
+
+  /* ================= CONIXEN READY ================= */
+
+  console.log(
+    "CONIXEN V2 loaded successfully 🚀"
+  );
 
 });
