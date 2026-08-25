@@ -4,10 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>CONIXEN — Premium Wallpapers for Every Screen</title>
+  <title>CONIXEN — Wallpapers for Every Screen</title>
 
-  <meta name="description" content="CONIXEN — Discover beautiful wallpapers for mobile, tablet, laptop and desktop.">
-  <meta name="theme-color" content="#05070a">
+  <meta name="description"
+    content="CONIXEN — Discover beautiful wallpapers for mobile, tablet, laptop and desktop.">
+
+  <meta name="theme-color" content="#05070d">
 
   <link rel="stylesheet" href="style.css">
 </head>
@@ -18,9 +20,9 @@
 
   <header class="navbar">
 
-    <a href="index.html" class="logo">
-      <span class="logo-mark">W</span>
-      <span class="logo-text">CONIXEN</span>
+    <a href="index.html" class="brand">
+      <span class="brand-logo">C</span>
+      <span class="brand-name">CONIXEN</span>
     </a>
 
     <nav class="nav-links">
@@ -28,20 +30,19 @@
       <a href="pages/wallpapers.html">Wallpapers</a>
       <a href="pages/categories.html">Categories</a>
       <a href="pages/devices.html">Devices</a>
+      <a href="pages/favorites.html">Favorites</a>
     </nav>
 
     <div class="nav-actions">
-      <button class="search-btn" id="openSearch" aria-label="Search">
+
+      <button class="icon-btn" id="openSearch" aria-label="Search">
         🔍
       </button>
 
-      <a href="pages/favorites.html" class="favorite-btn">
-        ♡
-      </a>
-
-      <button class="menu-btn" id="menuBtn" aria-label="Menu">
+      <button class="icon-btn menu-btn" id="menuBtn" aria-label="Menu">
         ☰
       </button>
+
     </div>
 
   </header>
@@ -66,121 +67,66 @@
 
     <section class="hero">
 
-      <div class="hero-glow glow-one"></div>
-      <div class="hero-glow glow-two"></div>
+      <!-- Hero wallpaper -->
+      <div class="hero-wallpaper"></div>
+
+      <!-- Dark/blue/red overlays -->
+      <div class="hero-overlay"></div>
+      <div class="hero-red-glow"></div>
+      <div class="hero-blue-glow"></div>
 
       <div class="hero-content">
 
         <span class="hero-badge">
-          ✦ PREMIUM WALLPAPERS
+          <span>✦</span>
+          CURATED FOR YOUR SCREEN
         </span>
 
         <h1>
           Beautiful Wallpapers.
-          <span>For Every Screen.</span>
+          <br>
+          Made for
+          <span>Every Screen.</span>
         </h1>
 
         <p>
-          Discover stunning wallpapers for your mobile,
-          tablet, laptop and desktop.
+          Discover stunning wallpapers for your mobile, tablet,
+          laptop and desktop. High quality visuals, made to make
+          your screen look better.
         </p>
 
-        <div class="hero-search">
+
+        <!-- Search -->
+
+        <form class="hero-search" id="searchForm">
+
+          <span class="search-icon">⌕</span>
 
           <input
-            type="text"
-            id="heroSearch"
-            placeholder="Search wallpapers..."
+            type="search"
+            id="searchInput"
+            placeholder="Search wallpapers, categories, devices..."
             autocomplete="off"
           >
 
-          <button id="heroSearchBtn">
-            Search
+          <button type="submit">
+            Search →
           </button>
 
+        </form>
+
+
+        <!-- Quick filters -->
+
+        <div class="quick-filters">
+
+          <button>4K</button>
+          <button>AMOLED</button>
+          <button>Gaming</button>
+          <button>Nature</button>
+          <button>Anime</button>
+
         </div>
-
-        <div class="quick-tags">
-
-          <span>4K</span>
-          <span>AMOLED</span>
-          <span>Gaming</span>
-          <span>Nature</span>
-          <span>Anime</span>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- ================= FEATURED ================= -->
-
-    <section class="section">
-
-      <div class="section-heading">
-
-        <div>
-          <span class="eyebrow">HAND PICKED</span>
-          <h2>Featured Wallpapers</h2>
-        </div>
-
-        <a href="pages/wallpapers.html" class="view-all">
-          View all →
-        </a>
-
-      </div>
-
-
-      <div class="wallpaper-grid featured-grid">
-
-        <article class="wallpaper-card card-one">
-          <div class="card-overlay">
-            <span>4K</span>
-            <button class="heart">♡</button>
-          </div>
-          <div class="card-info">
-            <h3>Neon Horizon</h3>
-            <p>Abstract • 4K</p>
-          </div>
-        </article>
-
-
-        <article class="wallpaper-card card-two">
-          <div class="card-overlay">
-            <span>2K</span>
-            <button class="heart">♡</button>
-          </div>
-          <div class="card-info">
-            <h3>Midnight Space</h3>
-            <p>Space • 2K</p>
-          </div>
-        </article>
-
-
-        <article class="wallpaper-card card-three">
-          <div class="card-overlay">
-            <span>4K</span>
-            <button class="heart">♡</button>
-          </div>
-          <div class="card-info">
-            <h3>Cyber City</h3>
-            <p>Technology • 4K</p>
-          </div>
-        </article>
-
-
-        <article class="wallpaper-card card-four">
-          <div class="card-overlay">
-            <span>8K</span>
-            <button class="heart">♡</button>
-          </div>
-          <div class="card-info">
-            <h3>Frozen Mountains</h3>
-            <p>Nature • 8K</p>
-          </div>
-        </article>
 
       </div>
 
@@ -189,55 +135,95 @@
 
     <!-- ================= TRENDING ================= -->
 
-    <section class="section dark-section">
+    <section class="section">
 
       <div class="section-heading">
 
         <div>
-          <span class="eyebrow">HOT RIGHT NOW</span>
-          <h2>Trending</h2>
+          <span class="eyebrow">TRENDING NOW</span>
+          <h2>Most Popular This Week</h2>
         </div>
 
-        <a href="pages/wallpapers.html" class="view-all">
-          Explore →
-        </a>
+        <a href="pages/wallpapers.html">View All →</a>
 
       </div>
 
 
-      <div class="trend-row">
+      <div class="wallpaper-grid">
 
-        <div class="trend-item">
-          <strong>01</strong>
-          <div>
-            <h3>Dark AMOLED</h3>
-            <p>Popular this week</p>
-          </div>
-        </div>
+        <article class="wallpaper-card">
 
-        <div class="trend-item">
-          <strong>02</strong>
-          <div>
-            <h3>Anime</h3>
-            <p>Millions of views</p>
+          <div class="wallpaper-image image-one">
+            <span class="quality">4K</span>
+            <button class="heart">♡</button>
           </div>
-        </div>
 
-        <div class="trend-item">
-          <strong>03</strong>
-          <div>
-            <h3>Cars</h3>
-            <p>Fast & futuristic</p>
+          <div class="wallpaper-info">
+            <h3>Cyber Rider</h3>
+            <p>Gaming</p>
           </div>
-        </div>
 
-        <div class="trend-item">
-          <strong>04</strong>
-          <div>
-            <h3>Minimal</h3>
-            <p>Clean aesthetics</p>
+        </article>
+
+
+        <article class="wallpaper-card">
+
+          <div class="wallpaper-image image-two">
+            <span class="quality">4K</span>
+            <button class="heart">♡</button>
           </div>
-        </div>
+
+          <div class="wallpaper-info">
+            <h3>Mountain Vibes</h3>
+            <p>Nature</p>
+          </div>
+
+        </article>
+
+
+        <article class="wallpaper-card">
+
+          <div class="wallpaper-image image-three">
+            <span class="quality">4K</span>
+            <button class="heart">♡</button>
+          </div>
+
+          <div class="wallpaper-info">
+            <h3>Shadow</h3>
+            <p>Anime</p>
+          </div>
+
+        </article>
+
+
+        <article class="wallpaper-card">
+
+          <div class="wallpaper-image image-four">
+            <span class="quality">4K</span>
+            <button class="heart">♡</button>
+          </div>
+
+          <div class="wallpaper-info">
+            <h3>Deep Space</h3>
+            <p>Space</p>
+          </div>
+
+        </article>
+
+
+        <article class="wallpaper-card">
+
+          <div class="wallpaper-image image-five">
+            <span class="quality">4K</span>
+            <button class="heart">♡</button>
+          </div>
+
+          <div class="wallpaper-info">
+            <h3>Speed Machine</h3>
+            <p>Cars</p>
+          </div>
+
+        </article>
 
       </div>
 
@@ -255,43 +241,71 @@
           <h2>Popular Categories</h2>
         </div>
 
-        <a href="pages/categories.html" class="view-all">
-          All categories →
-        </a>
+        <a href="pages/categories.html">All Categories →</a>
 
       </div>
 
 
       <div class="category-grid">
 
-        <a href="#" class="category-card anime">
-          <span>🎌</span>
+        <a href="pages/categories.html" class="category-card category-anime">
+          <span>✦</span>
           <h3>Anime</h3>
         </a>
 
-        <a href="#" class="category-card gaming">
-          <span>🎮</span>
+        <a href="pages/categories.html" class="category-card category-gaming">
+          <span>⌁</span>
           <h3>Gaming</h3>
         </a>
 
-        <a href="#" class="category-card cars">
-          <span>🏎️</span>
+        <a href="pages/categories.html" class="category-card category-cars">
+          <span>◆</span>
           <h3>Cars</h3>
         </a>
 
-        <a href="#" class="category-card nature">
-          <span>🌲</span>
+        <a href="pages/categories.html" class="category-card category-nature">
+          <span>♢</span>
           <h3>Nature</h3>
         </a>
 
-        <a href="#" class="category-card space">
-          <span>🌌</span>
+        <a href="pages/categories.html" class="category-card category-space">
+          <span>✧</span>
           <h3>Space</h3>
         </a>
 
-        <a href="#" class="category-card tech">
-          <span>⚡</span>
+        <a href="pages/categories.html" class="category-card category-tech">
+          <span>⌘</span>
           <h3>Technology</h3>
+        </a>
+
+        <a href="pages/categories.html" class="category-card category-minimal">
+          <span>○</span>
+          <h3>Minimal</h3>
+        </a>
+
+        <a href="pages/categories.html" class="category-card category-dark">
+          <span>◈</span>
+          <h3>Dark</h3>
+        </a>
+
+        <a href="pages/categories.html" class="category-card category-sports">
+          <span>＋</span>
+          <h3>Sports</h3>
+        </a>
+
+        <a href="pages/categories.html" class="category-card category-movies">
+          <span>▣</span>
+          <h3>Movies & TV</h3>
+        </a>
+
+        <a href="pages/categories.html" class="category-card category-islamic">
+          <span>✦</span>
+          <h3>Islamic</h3>
+        </a>
+
+        <a href="pages/categories.html" class="category-card category-aesthetic">
+          <span>✺</span>
+          <h3>Aesthetic</h3>
         </a>
 
       </div>
@@ -301,43 +315,115 @@
 
     <!-- ================= DEVICES ================= -->
 
-    <section class="section device-section">
+    <section class="section">
 
       <div class="section-heading">
 
         <div>
           <span class="eyebrow">MADE FOR YOUR SCREEN</span>
-          <h2>Explore by Device</h2>
+          <h2>Choose Your Device</h2>
         </div>
+
+        <a href="pages/devices.html">View All Devices →</a>
 
       </div>
 
 
       <div class="device-grid">
 
-        <a href="#" class="device-card">
-          <span>📱</span>
-          <h3>Mobile</h3>
-          <p>Portrait wallpapers</p>
+        <a href="pages/devices.html" class="device-card">
+          <div class="device-icon">▯</div>
+          <div>
+            <h3>Mobile</h3>
+            <p>Portrait wallpapers</p>
+          </div>
+          <span>→</span>
         </a>
 
-        <a href="#" class="device-card">
-          <span>📲</span>
-          <h3>Tablet</h3>
-          <p>Perfect tablet sizes</p>
+
+        <a href="pages/devices.html" class="device-card">
+          <div class="device-icon">▭</div>
+          <div>
+            <h3>Tablet</h3>
+            <p>Perfect tablet sizes</p>
+          </div>
+          <span>→</span>
         </a>
 
-        <a href="#" class="device-card">
-          <span>💻</span>
-          <h3>Laptop</h3>
-          <p>Wide wallpapers</p>
+
+        <a href="pages/devices.html" class="device-card">
+          <div class="device-icon">▱</div>
+          <div>
+            <h3>Laptop</h3>
+            <p>Wide wallpapers</p>
+          </div>
+          <span>→</span>
         </a>
 
-        <a href="#" class="device-card">
-          <span>🖥️</span>
-          <h3>Desktop</h3>
-          <p>Ultra HD displays</p>
+
+        <a href="pages/devices.html" class="device-card">
+          <div class="device-icon">▣</div>
+          <div>
+            <h3>Desktop</h3>
+            <p>Ultra HD displays</p>
+          </div>
+          <span>→</span>
         </a>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= FEATURED ================= -->
+
+    <section class="section">
+
+      <div class="section-heading">
+
+        <div>
+          <span class="eyebrow">HAND PICKED</span>
+          <h2>Featured Wallpapers</h2>
+        </div>
+
+        <a href="pages/wallpapers.html">Explore All →</a>
+
+      </div>
+
+
+      <div class="featured-grid">
+
+        <div class="featured-item featured-large image-six">
+          <div>
+            <span>8K</span>
+            <h3>Neon Dreams</h3>
+            <p>Abstract</p>
+          </div>
+        </div>
+
+        <div class="featured-item image-seven">
+          <div>
+            <span>4K</span>
+            <h3>Lost World</h3>
+            <p>Nature</p>
+          </div>
+        </div>
+
+        <div class="featured-item image-eight">
+          <div>
+            <span>4K</span>
+            <h3>Future City</h3>
+            <p>Technology</p>
+          </div>
+        </div>
+
+        <div class="featured-item image-nine">
+          <div>
+            <span>2K</span>
+            <h3>Night Sky</h3>
+            <p>Space</p>
+          </div>
+        </div>
 
       </div>
 
@@ -348,24 +434,28 @@
 
     <section class="cta">
 
-      <div>
+      <div class="cta-glow"></div>
+
+      <div class="cta-logo">C</div>
+
+      <div class="cta-content">
 
         <span class="eyebrow">CONIXEN</span>
 
         <h2>
-          Your screen deserves
-          something beautiful.
+          Your next favorite wallpaper
+          <span>is waiting.</span>
         </h2>
 
         <p>
-          Explore thousands of possibilities.
+          Explore beautiful wallpapers built for every screen.
         </p>
 
-        <a href="pages/wallpapers.html" class="cta-button">
-          Explore Wallpapers →
-        </a>
-
       </div>
+
+      <a href="pages/wallpapers.html" class="cta-button">
+        Explore Wallpapers →
+      </a>
 
     </section>
 
@@ -374,46 +464,69 @@
 
   <!-- ================= FOOTER ================= -->
 
-  <footer class="footer">
+  <footer>
 
     <div class="footer-brand">
 
-      <div class="logo">
-        <span class="logo-mark">W</span>
-        <span class="logo-text">CONIXEN</span>
-      </div>
+      <div class="footer-logo">C</div>
 
-      <p>
-        Premium wallpapers for every screen.
-      </p>
+      <div>
+        <strong>CONIXEN</strong>
+        <p>Wallpapers for every screen.</p>
+      </div>
 
     </div>
 
 
     <div class="footer-links">
 
-      <div>
-        <h4>Explore</h4>
-        <a href="pages/wallpapers.html">Wallpapers</a>
-        <a href="pages/categories.html">Categories</a>
-        <a href="pages/devices.html">Devices</a>
-      </div>
-
-      <div>
-        <h4>CONIXEN</h4>
-        <a href="#">About</a>
-        <a href="#">Contact</a>
-        <a href="#">Privacy</a>
-      </div>
+      <a href="index.html">Home</a>
+      <a href="pages/wallpapers.html">Wallpapers</a>
+      <a href="pages/categories.html">Categories</a>
+      <a href="pages/devices.html">Devices</a>
+      <a href="pages/favorites.html">Favorites</a>
 
     </div>
 
 
-    <div class="copyright">
-      © 2026 CONIXEN. All rights reserved.
+    <div class="footer-bottom">
+
+      <p>© 2026 CONIXEN. All rights reserved.</p>
+
+      <p>Built for beautiful screens.</p>
+
     </div>
 
   </footer>
+
+
+  <!-- ================= SEARCH MODAL ================= -->
+
+  <div class="search-modal" id="searchModal">
+
+    <div class="search-box">
+
+      <button class="close-search" id="closeSearch">
+        ×
+      </button>
+
+      <span class="eyebrow">SEARCH CONIXEN</span>
+
+      <h2>Find your wallpaper.</h2>
+
+      <input
+        type="search"
+        id="modalSearchInput"
+        placeholder="Anime, gaming, nature, 4K..."
+      >
+
+      <button id="modalSearchButton">
+        Search Wallpapers →
+      </button>
+
+    </div>
+
+  </div>
 
 
   <script src="script.js"></script>
